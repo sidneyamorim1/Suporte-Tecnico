@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body { 
+    font-family: 'Inter', sans-serif; 
+    background-color: #f1f5f9; 
+  }
+}
+
+@layer utilities {
+  .material-symbols-outlined { 
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; 
+  }
+  
+  .sidebar-active { 
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+  }
+  
+  .sidebar-active:active { 
+    transform: scale(0.98); 
+  }
+  
+  .glass-card { 
+    backdrop-filter: blur(8px); 
+    background: rgba(255, 255, 255, 0.8); 
+  }
+}
