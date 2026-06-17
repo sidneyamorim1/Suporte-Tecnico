@@ -8,6 +8,8 @@ import { MeusChamados } from './pages/MeusChamados';
 import { NovoChamado } from './pages/NovoChamado';
 import { Relatorios } from './pages/Relatorios';
 import { Configuracoes } from './pages/Configuracoes';
+import { Login } from './pages/Login';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // ── Dashboard (Visão Geral) ───────────────────────────────────────────────────
 function Dashboard() {
@@ -107,11 +109,33 @@ function AppRouter() {
 }
 
 // ── Root ──────────────────────────────────────────────────────────────────────
-function App() {
+function RootApp() {
+  const { session, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-surface-container flex items-center justify-center">
+        <span className="material-symbols-outlined animate-spin text-4xl text-primary">progress_activity</span>
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Login />;
+  }
+
   return (
     <NavigationProvider>
       <AppRouter />
     </NavigationProvider>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <RootApp />
+    </AuthProvider>
   );
 }
 

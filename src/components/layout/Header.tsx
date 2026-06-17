@@ -1,5 +1,5 @@
 import { useNavigation } from '../../contexts/NavigationContext';
-
+import { useAuth } from '../../contexts/AuthContext';
 interface HeaderProps {
   onMenuClick: () => void;
 }
@@ -14,6 +14,7 @@ const pageTitles: Record<string, string> = {
 
 export function Header({ onMenuClick }: HeaderProps) {
   const { currentPage } = useNavigation();
+  const { user, signOut } = useAuth();
   const pageTitle = pageTitles[currentPage] ?? 'Suporte Técnico';
 
   return (
@@ -51,15 +52,22 @@ export function Header({ onMenuClick }: HeaderProps) {
         </button>
         {/* User Info */}
         <div className="flex items-center gap-3 pl-2 sm:pl-4 border-l border-outline-variant">
-          <div className="text-right hidden sm:block">
-            <p className="text-label-md font-bold">Ricardo Silva</p>
-            <p className="text-caption text-on-surface-variant">Coordenador de TI</p>
+          <div className="text-right hidden sm:block max-w-[150px] overflow-hidden">
+            <p className="text-label-md font-bold truncate text-on-surface">
+              {user?.email?.split('@')[0] || 'Usuário'}
+            </p>
+            <p className="text-caption text-on-surface-variant text-xs truncate">
+              {user?.email || 'coordenador@ti.com'}
+            </p>
           </div>
           <img
             alt="Foto do Usuário"
             className="w-10 h-10 rounded-full border border-outline-variant object-cover"
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHTjN8D-O9NJxhHbD95BD81vxbF9rojvUo-xnH7j80dcOyWHMtkfxAE9eaaSIPSKfcDYDWuC_nLZc01PMdM_VKKqCt3b9ol0FezDV9MOQgLEwcM4Qm5y0UiUG-qMv7UV8dn2r5XMwQi_6aDj5G-JHC7NL7XbBNxnApXhcX5wH0xgc-th93auCTCdRZmrWFIwA4D3OFPa9sfmQWomQ3WXAMypX7KPuHOgY2crt4FP4o5BJ_pk1XKQxVA6mwfjxxa_N6u79sU7nSvw"
           />
+          <button onClick={signOut} title="Sair" className="text-on-surface-variant hover:text-error hover:bg-error/10 p-2 rounded-full transition-colors flex items-center justify-center">
+            <span className="material-symbols-outlined">logout</span>
+          </button>
         </div>
       </div>
     </header>
